@@ -1,19 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import useGlobalState from './lib/use-global-state';
+import delaySplashScreen from './lib/delay-splash-screen';
+import Home from './views/home';
+import Logs from './views/logs';
+import Settings from './views/settings';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
-  );
-}
+delaySplashScreen();
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const App: React.FunctionComponent = () => {
+  const state = useGlobalState();
+  switch (state.view) {
+    case 'home':
+      return (
+        <Home state={state} />
+      );
+    case 'logs':
+      return (
+        <Logs state={state} />
+      );
+    case 'settings':
+      return (
+        <Settings state={state} />
+      );
+  }
+};
+
+export default App;
