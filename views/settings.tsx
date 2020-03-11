@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 
-import bgSrc from '../assets/home/home.png';
+import bgSrc from '../assets/home/bg-full.png';
 
 interface SettingsProps {
   state: IGlobalState;
@@ -13,6 +13,7 @@ const Settings: React.FunctionComponent<SettingsProps> = ({ state }) => {
     <ImageBackground source={bgSrc} style={styles.full}>
       <View style={styles.container}>
         <Text style={styles.text}>Settings</Text>
+        <Text style={styles.text}>Token: {state.expoToken}</Text>
       </View>
     </ImageBackground>
   );

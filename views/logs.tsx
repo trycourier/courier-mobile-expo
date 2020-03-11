@@ -2,7 +2,7 @@ import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 
-import bgSrc from '../assets/home/home.png';
+import bgSrc from '../assets/home/bg-full.png';
 
 interface LogsProps {
   state: IGlobalState;

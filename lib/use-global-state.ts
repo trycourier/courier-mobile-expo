@@ -2,13 +2,17 @@ import { useState } from 'react';
 
 export type GlobalStateViews = 'home' | 'settings' | 'logs';
 
+interface registerExpoTokenInput {
+  token: string;
+}
+
 export interface IGlobalState {
   view: GlobalStateViews;
   expoToken: string;
   logEntry: string;
 
   goTo: (view: GlobalStateViews) => void;
-  registerToken: (token: string) => void;
+  registerExpoToken: (input: registerExpoTokenInput) => void;
   addLogEntry: (logEntry: string) => void;
 }
 
@@ -26,8 +30,8 @@ export default function (): IGlobalState {
       setView(view);
     },
 
-    registerToken: (token) => {
-      setExpoToken(token);
+    registerExpoToken: (input) => {
+      setExpoToken(input.token);
       setView('settings');
     },
 
