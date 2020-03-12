@@ -8,5 +8,5 @@ Courier Mobile is a mobile application for iOS and Android that lets developers 
 * Notification object: https://docs.expo.io/versions/v36.0.0/sdk/notifications/#notification
 * AsyncStorage: https://docs.expo.io/versions/v36.0.0/react-native/asyncstorage/
 * Animations: https://docs.expo.io/versions/latest/react-native/animations/
-* Sharing: https://github.com/expo/react-native-action-sheet
+* Sharing: https://reactnative.dev/docs/share.html
 * Status Bar: https://reactnative.dev/docs/statusbar.html

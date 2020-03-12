@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Share, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 import Glyph from '../components/glyph';
 
@@ -8,14 +8,24 @@ interface ISettingsProps {
 }
 
 const Settings: React.FunctionComponent<ISettingsProps> = ({ state }) => {
+  const shareToken = (token: string) => async () => {
+    Share.share({
+      message: token,
+      url: undefined
+    });
+  };
+
   return (
     <View style={styles.fullscreen}>
       <StatusBar barStyle="dark-content" />
       <Glyph />
       <View style={styles.text}>
         <Text style={styles.h1}>Push Tokens</Text>
-        <Text style={styles.h2}>Expo</Text>
-        <Text style={styles.token}>{state.expoToken}</Text>
+
+        <TouchableOpacity onPress={shareToken(state.expoToken)}>
+          <Text style={styles.h2}>Expo</Text>
+          <Text style={styles.token}>{state.expoToken}</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );

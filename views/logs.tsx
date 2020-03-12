@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, Share, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 
 const FAKE_JSON = {
@@ -22,10 +22,21 @@ const format = (text: string): string => {
 }
 
 const Logs: React.FunctionComponent<ILogsProps> = ({ state }) => {
+  const shareLog = (log: string) => async () => {
+    Share.share({
+      message: log,
+      url: undefined
+    });
+  };
+
+  const log = format(state.logEntry);
+
   return (
     <View style={styles.fullscreen}>
       <StatusBar barStyle="light-content" />
-      <Text style={styles.text}>{format(state.logEntry)}</Text>
+      <TouchableOpacity onPress={shareLog(log)}>
+        <Text style={styles.text}>{log}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
