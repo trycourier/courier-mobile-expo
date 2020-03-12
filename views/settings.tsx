@@ -1,40 +1,48 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
+import Glyph from '../components/glyph';
 
-import bgSrc from '../assets/home/bg-full.png';
-
-interface SettingsProps {
+interface ISettingsProps {
   state: IGlobalState;
 }
 
-const Settings: React.FunctionComponent<SettingsProps> = ({ state }) => {
+const Settings: React.FunctionComponent<ISettingsProps> = ({ state }) => {
   return (
-    <ImageBackground source={bgSrc} style={styles.full}>
-      <View style={styles.container}>
-        <Text style={styles.text}>Settings</Text>
-        <Text style={styles.text}>Token: {state.expoToken}</Text>
+    <View style={styles.fullscreen}>
+      <Glyph />
+      <View style={styles.text}>
+        <Text style={styles.h1}>Push Tokens</Text>
+        <Text style={styles.h2}>Expo</Text>
+        <Text style={styles.token}>{state.expoToken}</Text>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  full: {
+  fullscreen: {
     width: '100%',
     height: '100%'
   },
 
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  text: {
+    marginTop: 40,
+    marginHorizontal: 35
   },
 
-  text: {
+  h1: {
+    marginBottom: 35,
+    fontSize: 20,
+    color: '#AD9DD1'
+  },
+  h2: {
+    fontSize: 20,
+    color: '#9D3789'
+  },
+  token: {
     fontSize: 16,
-    color: '#9D3789',
-    marginBottom: 15
+    color: '#344563'
   }
 });
 
