@@ -13,7 +13,7 @@ export interface IGlobalState {
 
   goTo: (view: GlobalStateViews) => void;
   registerExpoToken: (input: registerExpoTokenInput) => void;
-  addLogEntry: (logEntry: string) => void;
+  receiveNotification: (notification: object) => void;
 }
 
 export default function (): IGlobalState {
@@ -35,7 +35,8 @@ export default function (): IGlobalState {
       setView('settings');
     },
 
-    addLogEntry: (logEntry) => {
+    receiveNotification: (notif) => {
+      const logEntry = JSON.stringify(notif);
       setLogEntry(logEntry);
       setView('logs');
     }

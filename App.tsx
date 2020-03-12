@@ -2,6 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import useGlobalState from './lib/use-global-state';
 import delaySplashScreen from './lib/delay-splash-screen';
+import receiveNotifications from './lib/receive-notifications';
 import Home from './views/home';
 import Logs from './views/logs';
 import Settings from './views/settings';
@@ -11,6 +12,8 @@ delaySplashScreen();
 
 const App: React.FunctionComponent = () => {
   const state = useGlobalState();
+  receiveNotifications(state.receiveNotification);
+  // const listener = receiveNotifications(state.receiveNotification);
 
   const ActiveView = () => {
     switch (state.view) {
