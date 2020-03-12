@@ -32,7 +32,7 @@ export default function (): IGlobalState {
 
     registerExpoToken: (input) => {
       setExpoToken(input.token);
-      // setView('settings');
+      setView('settings');
     },
 
     addLogEntry: (logEntry) => {

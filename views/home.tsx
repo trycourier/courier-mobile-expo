@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 import Button from '../components/button';
 import Glyph from '../components/glyph';
@@ -38,6 +38,7 @@ const Home: React.FunctionComponent<IHomeProps> = ({ state }) => {
   const hasToken = !!(state.expoToken && state.expoToken.length);
   return (
     <View style={styles.fullscreen}>
+      <StatusBar barStyle="dark-content" />
       <Hero isFooterEnabled={hasToken} />
       <Glyph />
       {hasToken ? null : <EnablePushNotifications state={state} />}
