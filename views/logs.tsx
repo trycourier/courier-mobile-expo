@@ -11,6 +11,10 @@ interface ILogsProps {
 }
 
 const format = (text: string): string => {
+  if (!text || !text.length) {
+    return '';
+  }
+
   const json = JSON.parse(text);
   return JSON.stringify(json, null, '  ');
 }
@@ -22,13 +26,13 @@ const Logs: React.FunctionComponent<ILogsProps> = ({ state }) => {
     <View style={styles.fullscreen}>
       <StatusBar barStyle="light-content" />
 
-      {state.logEntry ? <View style={styles.absolute}>
+      {log && log.length ? <View style={styles.absolute}>
         <ShareIcon background='dark' text={log} style={styles.shareIcon} />
         <Text style={styles.h1}>Most Recent Notification</Text>
         <Text style={styles.json}>{log}</Text>
       </View> : null}
 
-      {!state.logEntry ? <View style={styles.absolute}>
+      {!(log && log.length) ? <View style={styles.absolute}>
         <Image source={watermarkSrc} style={styles.watermark} resizeMode='cover' />
         <Text style={styles.robotSpeech}>Send a notification to your token via Courier and click it to see the log here!</Text>
         <Image source={robotSrc} style={styles.robot} />
@@ -68,11 +72,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     position: 'absolute',
     zIndex: 98,
+    alignSelf: 'center',
     fontFamily: monospace,
+    fontSize: 16,
     bottom: 233,
-    marginLeft: 79,
-    marginRight: 100,
-    width: '61%',
+    width: '70%',
     minHeight: 63,
     borderRadius: 10,
     overflow: 'hidden',
