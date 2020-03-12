@@ -9,11 +9,19 @@ interface ITokenRowProps {
   token: string;
 };
 
+const parseToken = (token: string): string => {
+  if (!token || !token.length || !token.startsWith('ExponentPushToken[')) {
+    return token;
+  }
+  const REGEX = /ExponentPushToken\[(.*)\]/;
+  return token.match(REGEX)[1];
+}
+
 const TokenRow: React.FunctionComponent<ITokenRowProps> = ({ title, token }) => {
   return (
     <View style={styles.tokenRow}>
       <Text style={styles.h2}>{title}</Text>
-      <Text style={styles.token}>{token}</Text>
+      <Text style={styles.token}>{parseToken(token)}</Text>
       <ShareIcon background='light' text={token} style={styles.shareIcon} />
     </View>
   );
@@ -66,7 +74,7 @@ const styles = StyleSheet.create({
   shareIcon: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    right: -10,
     zIndex: 99
   }
 });

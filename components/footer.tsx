@@ -5,6 +5,9 @@ import { IGlobalState, GlobalStateViews } from '../lib/use-global-state';
 import navHomeSrc from '../assets/nav/home.png';
 import navLogsSrc from '../assets/nav/logs.png';
 import navSettingsSrc from '../assets/nav/settings.png';
+import navHomeOnSrc from '../assets/nav/home-on.png';
+import navLogsOnSrc from '../assets/nav/logs-on.png';
+import navSettingsOnSrc from '../assets/nav/settings-on.png';
 
 interface IFooterProps {
   state: IGlobalState;
@@ -17,15 +20,14 @@ const Footer: React.FunctionComponent<IFooterProps> = ({ state }) => {
 
   return (
     <View style={styles.footer}>
-      <View style={state.view === 'settings' ? styles.barSettings : state.view === 'logs' ? styles.barLogs : styles.barHome} />
       <TouchableOpacity onPress={goTo('home')}>
-        <Image source={navHomeSrc} />
+        {state.view === 'home' ? <Image source={navHomeOnSrc} /> : <Image source={navHomeSrc} />}
       </TouchableOpacity>
       <TouchableOpacity onPress={goTo('logs')}>
-        <Image source={navLogsSrc} />
+        {state.view === 'logs' ? <Image source={navLogsOnSrc} /> : <Image source={navLogsSrc} />}
       </TouchableOpacity>
       <TouchableOpacity onPress={goTo('settings')}>
-        <Image source={navSettingsSrc} />
+        {state.view === 'settings' ? <Image source={navSettingsOnSrc} /> : <Image source={navSettingsSrc} />}
       </TouchableOpacity>
     </View>
   );
@@ -43,33 +45,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly'
-  },
-
-  barHome: {
-    width: 54,
-    height: 4,
-    backgroundColor: '#ad9ed1',
-    position: 'absolute',
-    top: 0,
-    left: 63
-  },
-
-  barLogs: {
-    width: 54,
-    height: 4,
-    backgroundColor: '#ad9ed1',
-    position: 'absolute',
-    top: 0,
-    left: 179
-  },
-
-  barSettings: {
-    width: 54,
-    height: 4,
-    backgroundColor: '#ad9ed1',
-    position: 'absolute',
-    top: 0,
-    left: 295
   }
 });
 
