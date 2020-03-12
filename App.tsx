@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View } from 'react-native';
 import useGlobalState from './lib/use-global-state';
 import delaySplashScreen from './lib/delay-splash-screen';
@@ -12,8 +12,15 @@ delaySplashScreen();
 
 const App: React.FunctionComponent = () => {
   const state = useGlobalState();
-  receiveNotifications(state.receiveNotification);
-  // const listener = receiveNotifications(state.receiveNotification);
+
+  useEffect(() => {
+    const listener = receiveNotifications(state.receiveNotification);
+    state.load();
+
+    return () => {
+      listener.remove();
+    }
+  }, []);
 
   const ActiveView = () => {
     switch (state.view) {

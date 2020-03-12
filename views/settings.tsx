@@ -1,6 +1,7 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
+import Button from '../components/button';
 import Glyph from '../components/glyph';
 import ShareIcon from '../components/share';
 
@@ -32,6 +33,10 @@ interface ISettingsProps {
 }
 
 const Settings: React.FunctionComponent<ISettingsProps> = ({ state }) => {
+  const reset = () => {
+    state.reset();
+  };
+
   return (
     <View style={styles.fullscreen}>
       <StatusBar barStyle="dark-content" />
@@ -39,6 +44,12 @@ const Settings: React.FunctionComponent<ISettingsProps> = ({ state }) => {
       <View style={styles.text}>
         <Text style={styles.h1}>Push Tokens</Text>
         <TokenRow title="Expo" token={state.expoToken} />
+      </View>
+
+      <View style={styles.resetView}>
+        <TouchableOpacity onPress={reset}>
+          <Button>Clear Storage</Button>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -76,7 +87,12 @@ const styles = StyleSheet.create({
     top: 0,
     right: -10,
     zIndex: 99
-  }
+  },
+
+  resetView: {
+    marginTop: 175,
+    alignItems: 'center'
+  },
 });
 
 export default Settings;

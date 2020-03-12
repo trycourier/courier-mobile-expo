@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { AsyncStorage } from 'react-native';
 
 export type GlobalStateViews = 'home' | 'settings' | 'logs';
 
@@ -11,9 +12,12 @@ export interface IGlobalState {
   expoToken: string;
   logEntry: string;
 
+  load: () => Promise<void>;
+  reset: () => Promise<void>;
+
   goTo: (view: GlobalStateViews) => void;
-  registerExpoToken: (input: registerExpoTokenInput) => void;
-  receiveNotification: (notification: object) => void;
+  registerExpoToken: (input: registerExpoTokenInput) => Promise<void>;
+  receiveNotification: (notification: object) => Promise<void>;
 }
 
 export default function (): IGlobalState {
@@ -26,17 +30,39 @@ export default function (): IGlobalState {
     expoToken,
     logEntry,
 
+    load: async () => {
+      const token = await AsyncStorage.getItem('tokens:expo');
+      const logEntry = await AsyncStorage.getItem('logs:latest');
+
+      if (token && token.length) {
+        setExpoToken(token);
+      }
+      if (logEntry && logEntry.length) {
+        setLogEntry(logEntry);
+      }
+    },
+    reset: async () => {
+      AsyncStorage.removeItem('tokens:expo');
+      AsyncStorage.removeItem('logs:latest');
+      setExpoToken(null);
+      setLogEntry(null);
+      setView('home');
+    },
+
     goTo: (view) => {
       setView(view);
     },
 
-    registerExpoToken: (input) => {
-      setExpoToken(input.token);
+    registerExpoToken: async (input) => {
+      const { token } = input;
+      await AsyncStorage.setItem('tokens:expo', token);
+      setExpoToken(token);
       setView('settings');
     },
 
-    receiveNotification: (notif) => {
+    receiveNotification: async (notif) => {
       const logEntry = JSON.stringify(notif);
+      await AsyncStorage.setItem('logs:latest', logEntry);
       setLogEntry(logEntry);
       setView('logs');
     }
