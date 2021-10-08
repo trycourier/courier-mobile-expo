@@ -1,8 +1,8 @@
-import { SplashScreen } from 'expo';
+import * as SplashScreen from 'expo-splash-screen';
 
 const DELAY = 100;
 
 export default function () {
-  SplashScreen.preventAutoHide();
-  setTimeout(SplashScreen.hide, DELAY);
+  SplashScreen.preventAutoHideAsync();
+  setTimeout(SplashScreen.hideAsync, DELAY);
 }

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { View } from 'react-native';
+import * as Notifications from 'expo-notifications';
+
 import useGlobalState from './lib/use-global-state';
 import delaySplashScreen from './lib/delay-splash-screen';
-import receiveNotifications from './lib/receive-notifications';
 import Home from './views/home';
 import Logs from './views/logs';
 import Settings from './views/settings';
@@ -13,8 +14,9 @@ delaySplashScreen();
 const App: React.FunctionComponent = () => {
   const state = useGlobalState();
 
+  // https://github.com/expo/fyi/blob/master/LegacyNotifications-to-ExpoNotifications.md#legacynotificationsaddlistener
   useEffect(() => {
-    const listener = receiveNotifications(state.receiveNotification);
+    const listener = Notifications.addNotificationReceivedListener(state.receiveNotification);
     state.load();
 
     return () => {

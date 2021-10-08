@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Notifications from 'expo-notifications';
 
 export type GlobalStateViews = 'home' | 'settings' | 'logs';
 
@@ -17,7 +18,7 @@ export interface IGlobalState {
 
   goTo: (view: GlobalStateViews) => void;
   registerExpoToken: (input: registerExpoTokenInput) => Promise<void>;
-  receiveNotification: (notification: object) => Promise<void>;
+  receiveNotification: (event: Notifications.Notification) => Promise<void>;
 }
 
 export default function (): IGlobalState {
@@ -60,8 +61,8 @@ export default function (): IGlobalState {
       setView('settings');
     },
 
-    receiveNotification: async (notif) => {
-      const logEntry = JSON.stringify(notif);
+    receiveNotification: async (event) => {
+      const logEntry = JSON.stringify(event);
       await AsyncStorage.setItem('logs:latest', logEntry);
       setLogEntry(logEntry);
       setView('logs');

@@ -3,13 +3,12 @@
     "name": "Courier",
     "slug": "courier-mobile",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",
       "web"
     ],
-    "version": "1.0.1",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon/icon@3x.png",
     "splash": {
@@ -25,7 +24,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.trycourier.courier-mobile",
-      "buildNumber": "1.0.1",
+      "buildNumber": "1.0.2",
       "supportsTablet": true
     },
     "description": "",
