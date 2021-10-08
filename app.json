@@ -9,7 +9,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon/icon@3x.png",
     "splash": {
@@ -25,7 +25,7 @@
     ],
     "ios": {
       "bundleIdentifier": "com.trycourier.courier-mobile",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.0.1",
       "supportsTablet": true
     },
     "description": "",
