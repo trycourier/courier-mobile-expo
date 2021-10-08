@@ -41,7 +41,7 @@ const Logs: React.FunctionComponent<ILogsProps> = ({ state }) => {
   );
 };
 
-const monospace = Platform.OS === 'ios' ? 'Courier' : 'monospace';
+const monospace = Platform.OS === 'ios' ? 'Helvetica Neue' : 'monospace';
 const styles = StyleSheet.create({
   absolute: {
     position: 'absolute',
