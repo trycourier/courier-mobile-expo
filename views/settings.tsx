@@ -1,5 +1,5 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { IGlobalState } from '../lib/use-global-state';
 import Button from '../components/button';
 import Glyph from '../components/glyph';
@@ -9,6 +9,8 @@ interface ITokenRowProps {
   title: string;
   token: string;
 };
+
+const PUSH_SERVICE = Platform.OS === 'ios' ? 'APN' : Platform.OS === 'android' ? 'FCM' : 'Device';
 
 const parseToken = (token: string): string => {
   if (!token || !token.length || !token.startsWith('ExponentPushToken[')) {
@@ -44,6 +46,7 @@ const Settings: React.FunctionComponent<ISettingsProps> = ({ state }) => {
       <View style={styles.text}>
         <Text style={styles.h1}>Push Tokens</Text>
         <TokenRow title="Expo" token={state.expoToken} />
+        <TokenRow title={PUSH_SERVICE} token={state.deviceToken} />
       </View>
 
       <View style={styles.resetView}>

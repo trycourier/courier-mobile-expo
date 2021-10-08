@@ -4,39 +4,46 @@ import * as Notifications from 'expo-notifications';
 
 export type GlobalStateViews = 'home' | 'settings' | 'logs';
 
-interface registerExpoTokenInput {
-  token: string;
-}
+export interface ITokens {
+  expo?: string;
+  device?: string;
+};
 
 export interface IGlobalState {
   view: GlobalStateViews;
   expoToken: string;
+  deviceToken: string;
   logEntry: string;
 
   load: () => Promise<void>;
   reset: () => Promise<void>;
 
   goTo: (view: GlobalStateViews) => void;
-  registerExpoToken: (input: registerExpoTokenInput) => Promise<void>;
+  registerTokens: (tokens: ITokens) => Promise<void>;
   receiveNotification: (event: Notifications.Notification) => Promise<void>;
 }
 
 export default function (): IGlobalState {
   const [view, setView] = useState<GlobalStateViews>('home');
-  const [expoToken, setExpoToken] = useState<string>();
+  const [storedTokens, setStoredTokens] = useState<ITokens | undefined>();
   const [logEntry, setLogEntry] = useState<string>();
 
   return {
     view,
-    expoToken,
+    expoToken: (storedTokens ? storedTokens.expo : null) ?? "",
+    deviceToken: (storedTokens ? storedTokens.device : null) ?? "",
     logEntry,
 
     load: async () => {
-      const token = await AsyncStorage.getItem('tokens:expo');
+      const expo = await AsyncStorage.getItem('tokens:expo');
+      const device = await AsyncStorage.getItem('tokens:device');
       const logEntry = await AsyncStorage.getItem('logs:latest');
 
-      if (token && token.length) {
-        setExpoToken(token);
+      if (expo && expo.length) {
+        setStoredTokens({
+          expo,
+          device
+        });
       }
       if (logEntry && logEntry.length) {
         setLogEntry(logEntry);
@@ -45,7 +52,7 @@ export default function (): IGlobalState {
     reset: async () => {
       AsyncStorage.removeItem('tokens:expo');
       AsyncStorage.removeItem('logs:latest');
-      setExpoToken(null);
+      setStoredTokens(null);
       setLogEntry(null);
       setView('home');
     },
@@ -54,10 +61,10 @@ export default function (): IGlobalState {
       setView(view);
     },
 
-    registerExpoToken: async (input) => {
-      const { token } = input;
-      await AsyncStorage.setItem('tokens:expo', token);
-      setExpoToken(token);
+    registerTokens: async (tokens) => {
+      await AsyncStorage.setItem('tokens:expo', tokens.expo ?? "");
+      await AsyncStorage.setItem('tokens:device', tokens.device ?? "");
+      setStoredTokens(tokens);
       setView('settings');
     },
 

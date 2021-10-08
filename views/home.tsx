@@ -4,7 +4,7 @@ import { IGlobalState } from '../lib/use-global-state';
 import Button from '../components/button';
 import Glyph from '../components/glyph';
 import Hero from '../components/hero';
-import registerPushNotifications, { SIMULATOR } from '../lib/register-push-notifications';
+import registerPushNotifications from '../lib/register-push-notifications';
 
 interface IHomeProps {
   state: IGlobalState;
@@ -12,15 +12,7 @@ interface IHomeProps {
 
 const EnablePushNotifications: React.FunctionComponent<IHomeProps> = ({ state }) => {
   const onPress = async () => {
-    try {
-      state.registerExpoToken(await registerPushNotifications());
-    } catch (err) {
-      if (err.message === SIMULATOR) {
-        state.registerExpoToken({ token: SIMULATOR });
-      } else {
-        alert(err.message);
-      }
-    }
+    state.registerTokens(await registerPushNotifications());
   };
 
   return (

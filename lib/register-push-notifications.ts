@@ -2,31 +2,16 @@ import Constants from 'expo-constants';
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
-interface IRegisterPushNotificationsResponse {
-  token: string;
+interface ITokens {
+  expo?: string;
+  device?: string;
 }
 
-export const SIMULATOR = 'SIMULATOR';
-
-export default async function registerPushNotifications() : Promise<IRegisterPushNotificationsResponse> {
-  let token: string = null;
-  
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Notifications.getPermissionsAsync();
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Notifications.requestPermissionsAsync();
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      throw new Error(`Unexpected status: ${status}`);
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-    this.setState({ expoPushToken: token });
-  } else {
-    throw new Error(SIMULATOR);
-  }
+export default async function registerPushNotifications() : Promise<ITokens> {
+  const tokens: ITokens = {
+    expo: null,
+    device: null
+  };
 
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
@@ -37,5 +22,26 @@ export default async function registerPushNotifications() : Promise<IRegisterPus
     });
   }
 
-  return { token };
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      throw new Error(`Unexpected status: ${finalStatus}`);
+    }
+
+    tokens.expo = (await Notifications.getExpoPushTokenAsync()).data;
+    tokens.device = (await Notifications.getDevicePushTokenAsync()).data;
+    console.log(tokens);
+    
+    return tokens;
+  } else {
+    return {
+      expo: 'SIMULATOR-EXPO',
+      device: 'SIMULATOR-DEV'
+    };
+  }
 }
